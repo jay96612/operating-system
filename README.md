@@ -5,7 +5,7 @@ This repository contain operating system concept and also their implemetation in
 
 This code is compilled and executed in Ubuntu OS.
 
-#Assignment1
+# Assignment1
 
 To compile:
 for Q1: gcc Q1.c
@@ -38,7 +38,7 @@ Q3
 
 ![q3](https://user-images.githubusercontent.com/26687042/47961349-4a557780-e02f-11e8-9c0b-a0980e2d1b7a.png)
 
-#Assignment2
+# Assignment2
 
 To compile:  for Q1: gcc Q2a.c
 
@@ -50,3 +50,6 @@ Q.a.
 
 ![assignment 2a](https://user-images.githubusercontent.com/26687042/47962101-3dd81b80-e03d-11e8-8f02-9788566a6490.png)
 
+# assignment 3:
+
+![a3qb1 2](https://user-images.githubusercontent.com/26687042/47967700-5d476680-e086-11e8-9ede-158a6b73fa98.png)
