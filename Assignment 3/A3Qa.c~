@@ -1,0 +1,139 @@
+#include<stdio.h>
+#include<signal.h>            // for signal()
+#include<sys/types.h>             // header file for fork()
+#include<stdlib.h>               // for exit()
+#include<string.h>
+#include<math.h>
+void intHandler(int sigId)
+{
+    printf("\nSignal Id : %d\n",sigId);   // print signal id
+    printf(" ");
+
+    int fd[2];
+   pid_t pid=fork();
+   
+   if(pid<0)          // error
+   {
+       printf("error in creating child process");
+       exit(1);
+   }
+   else if(pid==0)            // child process
+   {
+       int n,i;
+
+     //  int c=pipe(fd);       // pipe()
+
+       if(pipe(fd)==-1)
+       {
+           printf("Error in pipe()");
+           exit(1);
+       }
+//       fd[0]        // for read
+//       fd[1]        // for write
+
+int x=getpid();
+
+char str_pid[10];   
+                  // as string pid 
+sprintf (str_pid,"%d",pid); // print int 'pid' into the char[] str_pid
+write(fd[1],str_pid,sizeof(str_pid)-1);      // sending process id of child
+
+printf("\nHELLo from child process ");
+printf("\n child process id : %d",x);
+
+//close(fd[1]);1
+int status;  
+//   wait(&status);
+// Now generating fibonacci series.
+char str_fibo[10];
+       printf("\nEnter Fibonacci number upto which term: ");
+       scanf("%d",&n);
+       int fibo[n+1];    // n fibbonacci numbers
+       fibo[0]=0;
+       fibo[1]=1;
+       close(fd[0]);
+    
+       if(n==1)
+      { //itoa(fibo[0],str_fibo,2);
+              sprintf(str_fibo, "%d",fibo[0]); 
+               write(fd[1],str_fibo,10);
+      }   
+      else if(n==2)
+      {
+        //  itoa(fibo[1],str_fibo,2);
+         sprintf (str_fibo, "%d",fibo[0]); 
+           write(fd[1],str_fibo,10);
+            sprintf (str_fibo,"%d",fibo[1]); 
+             write(fd[1],str_fibo,10);
+      }
+      else      // n>2
+      {
+        //   itoa(fibo[0],str_fibo,2);
+               sprintf (str_fibo, "%d",fibo[0]); 
+                  write(fd[1],str_fibo,10);
+                    sprintf (str_fibo,"%d",fibo[1]); 
+                     write(fd[1],str_fibo,10);
+          for(i=2;i<n;i++)
+          {
+              fibo[i]=fibo[i-1]+fibo[i-2];
+         //   itoa(fibo[i],str_fibo,2);
+            sprintf(str_fibo,"%d",fibo[i]);        
+            write(fd[1],str_fibo,10);
+          }
+        //  wait(NULL);
+      }
+       close(fd[1]);
+       exit(0);  
+   }
+    else           // parent process
+    {   int y;
+         wait(NULL);
+        printf("\nHELLo from parent process ");
+        char buff[10];
+        read(fd[0],buff,5);
+        sscanf(buff,"%d",&y);
+        printf("\nchild process id : %d",y);
+ 
+//     //   wait(NULL);
+       int nbyte,num;
+       while((nbyte=read(fd[0],buff,sizeof(buff)-1))>0)
+       {  
+           read(fd[0],buff,sizeof(buff)-1);
+            sscanf(buff,"%d",&num);           
+             printf("%d ",num);
+       }
+        close(fd[0]);
+         exit(0);
+    }
+}
+void delay()
+{
+    int i,j;
+    for(i=1;i<=1000;i++)
+    for(j=1;j<=10000;j++);
+}
+int main(int argc,char *argv[])
+{
+// first argument is signal name(as INTEGER)
+ // second argument is function(returns nothing ) to be executed
+ // and SIGNAL NAME(code) is passed as argument to the function
+ // function may be user defined or predefined   
+
+ // signal () 
+ // on success returns the previous value of the signal handler 
+// otherwise ERROR as SIG_ERR.
+ 
+   signal(SIGINT,intHandler);    // catching interrupt (if any)          
+
+// some computation goes here
+int i,j,k=1;
+printf("You can give interrupt : \n");
+
+    for(i=1;i<=1000000;i++)
+    for(j=1;j<=10000;j++);
+
+//if there is no interrupt then below lines will be executed 
+    printf("\nAll computation done in  main function ");
+    printf("\nso Now returning from main function");
+    return 0;
+}
