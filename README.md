@@ -37,3 +37,16 @@ Q2
 Q3
 
 ![q3](https://user-images.githubusercontent.com/26687042/47961349-4a557780-e02f-11e8-9c0b-a0980e2d1b7a.png)
+
+#Assignment2
+
+To compile:  for Q1: gcc Q2a.c
+
+To run : ./a.out
+
+Below is the screenshots for execution of program :
+
+Q.a.
+
+![assignment 2a](https://user-images.githubusercontent.com/26687042/47962101-3dd81b80-e03d-11e8-8f02-9788566a6490.png)
+
